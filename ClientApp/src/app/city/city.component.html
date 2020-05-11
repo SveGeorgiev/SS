@@ -1,0 +1,25 @@
+<div class="container">
+    <h3>Градове</h3>
+    <hr>
+    <form [formGroup]="cityForm" class="needs-validation" novalidate>
+        <div class="input-group mb-3">
+            <input type="text" id="name" name="name" class="form-control" required formControlName="name"
+                placeholder="Име" aria-label="City's name" aria-describedby="add-city-button" maxlength="50">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" id="add-city-button" (click)="saveCity()"
+                    [disabled]="!cityForm.valid">Добави</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <app-alert-info-component *ngIf="showAlertInfo" [alertInfoText]="alertInfoText" (close)="closeAlert()">
+    </app-alert-info-component>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let city of cities">
+            <span>{{city.name}}</span>
+            <span class="float-right">
+                <app-ngb-modal-component [item]="city" (agree)="deleteCity(city)"></app-ngb-modal-component>
+            </span>
+        </li>
+    </ul>
+</div>

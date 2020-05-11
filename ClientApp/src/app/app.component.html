@@ -1,0 +1,8 @@
+<body>
+  <app-nav-menu></app-nav-menu>
+  <div class="container">
+    <router-outlet></router-outlet>
+    <button *ngIf="isShow" class="btn btn-light btn-lg back-to-top" role="button" (click)="gotoTop()">
+      <i class="fa fa-chevron-up"></i></button>
+  </div>
+</body>

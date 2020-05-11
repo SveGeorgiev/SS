@@ -1,0 +1,42 @@
+<div class="container">
+    <div>
+        <h3>Организации</h3>
+        <button type="button" class="btn btn-primary float-right" [routerLink]="['/organization/add']">Добави</button>
+    </div>
+    <hr>
+    <app-alert-info-component *ngIf="showAlertInfo" [alertInfoText]="alertInfoText" (close)="closeAlert()"></app-alert-info-component>
+    <div class="form-group">
+        <label for="city">Град</label>
+        <select id="city" class="form-control" [(ngModel)]="selectedValue" #city (change)="onCitySelected(city.value)">
+            <option value="0">Всички</option>
+            <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+    </div>
+    <hr>
+    <div *ngFor="let organization of organizations" class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img *ngIf="!organization.fileId" class="card-img cursor"
+                    [routerLink]="['/organization/details', organization.id]" src="assets/images/members.png"
+                    alt="photo" />
+                <img *ngIf="organization.fileId" class="card-img cursor"
+                    [routerLink]="['/organization/details', organization.id]" [src]="organization.fileSrc"
+                    alt="photo" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title cursor" [routerLink]="['/organization/details', organization.id]">
+                        {{organization.name}}</h5>
+                    <p class="card-text">{{organization.city.name}}</p>
+                    <p class="card-text">
+                        <button type="button" class="btn btn-link"
+                            [routerLink]="['/organization/edit', organization.id]"><i class="fa fa-edit"></i></button>
+                        <app-ngb-modal-component [item]="organization" (agree)="deleteOrganization(organization)">
+                        </app-ngb-modal-component>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <label *ngIf="organizations.length === 0">Няма добавени организации!</label>
+</div>

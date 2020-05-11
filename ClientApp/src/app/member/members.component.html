@@ -1,0 +1,39 @@
+<div class="container">
+    <div>
+        <h3>Членове</h3>
+        <button type="button" class="btn btn-primary float-right" [routerLink]="['/member/add']">Добави</button>
+    </div>
+    <hr>
+    <div class="form-group" *ngIf="showByOrganizationsFilter">
+        <label for="organization">Организация</label>
+        <select id="organization" class="form-control" [(ngModel)]="selectedValue" #organization
+            (change)="onOrganizationSelected(organization.value)">
+            <option value="0">Всички</option>
+            <option *ngFor="let organization of organizations" [value]="organization.id">{{organization.name}}</option>
+        </select>
+    </div>
+    <hr *ngIf="showByOrganizationsFilter">
+    <div *ngFor="let member of members" class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img *ngIf="!member.fileId" [routerLink]="['/member/details', member.id]" class="card-img cursor"
+                    src="assets/images/football-supporter-portrait-thumb.jpg" alt="photo" />
+                <img *ngIf="member.fileId" [routerLink]="['/member/details', member.id]" class="card-img cursor"
+                    [src]="member.fileSrc" alt="photo" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title cursor" [routerLink]="['/member/details', member.id]">{{member.name}}</h5>
+                    <p class="card-text">{{member.organization.name}}</p>
+                    <p class="card-text">
+                        <button type="button" class="btn btn-link" [routerLink]="['/member/edit', member.id]"><i
+                                class="fa fa-edit"></i></button>
+                        <app-ngb-modal-component [item]="member" (agree)="deleteMember(member)">
+                        </app-ngb-modal-component>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <label *ngIf="members.length === 0">Няма добавени членове на организацията!</label>
+</div>
